@@ -1,0 +1,6 @@
+pandas
+matplotlib
+prophet
+statistics
+statsmodels
+s3fs

@@ -26,8 +26,8 @@ if __name__ == "__main__":
         outputfilepath = localpath
     else: 
         #SM processing container's default input/output paths
-        inputfilepath = '/opt/ml/processing/input/'
-        outputfilepath = '/opt/ml/processing/output/'
+        inputfilepath = '/opt/ml/input/data/source/'
+        outputfilepath = '/opt/ml/output/data/'
     
     #read Input file
     filename = inputfilepath + 'pre_processing_input.csv'
@@ -37,7 +37,7 @@ if __name__ == "__main__":
     #Pre-process your data
     
     
-    #write Output back
+    #write Output back 
     outputfilename = outputfilepath+"predictions_input.csv"
     data.to_csv(outputfilename, index=False)
     print("Completed Run")

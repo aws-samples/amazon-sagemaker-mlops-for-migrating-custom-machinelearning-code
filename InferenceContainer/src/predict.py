@@ -9,6 +9,11 @@ import statistics
 import itertools
 import sys
 
+def legacy_inference(inputdf):
+    
+    #Run your inference logic here
+    outputdf=inputdf
+    return(outputdf)
 
 #main function to start the execution    
 if __name__ == "__main__":
@@ -32,12 +37,12 @@ if __name__ == "__main__":
     
     #read Input file
     filename = inputfilepath + 'predictions_input.csv'
-    data = pd.read_csv(str(filename))
+    inputdata = pd.read_csv(str(filename))
 
-    #Plug-in your legacy code here or call any functions
-    
+    #call legacy inference code as a function
+    outputdata=legacy_inference(inputdata)
     
     #write Output back
     outputfilename = outputfilepath+"predictions_output.csv"
-    data.to_csv(outputfilename, index=False)
+    outputdata.to_csv(outputfilename, index=False)
     print("Completed Run")

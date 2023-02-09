@@ -1,0 +1,55 @@
+{
+"PreProcessing":
+  {
+    "TrainingJobName": "sm-prepoc-job-0209-454",
+    "TrainingImage": "683313688378.dkr.ecr.us-east-1.amazonaws.com/sagemaker-scikit-learn:0.23-1-cpu-py3",
+    "RoleArn": "arn:aws:iam::111111111111:role/service-role/AmazonSageMaker-ExecutionRole-20220816T150072",
+    "S3OutputPath": "s3://sagemaker-us-east-1-111111111111/legacycode/data/output/",
+    "InstanceType": "ml.m5.xlarge",
+    "VolumeSizeInGB": 20,
+    "MaxRuntimeInSeconds": 3600,
+    "CodeUri":
+    {
+      "S3Uri": "s3://sagemaker-us-east-1-111111111111/legacycode/scripts/"
+    },
+    "InputUri":
+    {
+      "S3Uri": "s3://sagemaker-us-east-1-111111111111/legacycode/data/input/"
+    }
+  },
+"Inference":
+  {
+    "ProcessingJobName": "sm-inf-job-0209-454",
+    "OutputUri":
+    {
+      "S3Uri": "s3://sagemaker-us-east-1-111111111111/legacycode/data/output/"
+    },
+    "InputUri":
+    {
+      "S3Uri": "s3://sagemaker-us-east-1-111111111111/legacycode/data/input/"
+    },
+    "InstanceType": "ml.m5.xlarge",
+    "VolumeSizeInGB": 20,
+    "MaxRuntimeInSeconds": 3600,
+    "ImageUri": "111111111111.dkr.ecr.us-east-1.amazonaws.com/legacycode:1.0",
+    "RoleArn": "arn:aws:iam::111111111111:role/service-role/AmazonSageMaker-ExecutionRole-20220816T150072"
+  },
+"PostProcessing":
+  {
+    "TrainingJobName":"sm-postproc-job-0209-454",
+    "TrainingImage": "683313688378.dkr.ecr.us-east-1.amazonaws.com/sagemaker-scikit-learn:0.23-1-cpu-py3",
+    "RoleArn": "arn:aws:iam::111111111111:role/service-role/AmazonSageMaker-ExecutionRole-20220816T150072",
+    "S3OutputPath": "s3://sagemaker-us-east-1-111111111111/legacycode/data/output/",
+    "InstanceType": "ml.m5.xlarge",
+    "VolumeSizeInGB": 20,
+    "MaxRuntimeInSeconds": 3600,
+    "CodeUri":
+    {
+      "S3Uri": "s3://sagemaker-us-east-1-111111111111/legacycode/scripts/"
+    },
+    "InputUri":
+    {
+      "S3Uri": "s3://sagemaker-us-east-1-111111111111/legacycode/data/input/"
+    }
+  }
+}

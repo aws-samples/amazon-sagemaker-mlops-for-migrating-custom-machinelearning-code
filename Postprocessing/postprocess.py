@@ -38,7 +38,7 @@ if __name__ == "__main__":
         outputfilepath = '/opt/ml/processing/output/'
     
     #read Input file
-    filename = inputfilepath + 'predictions_ouput.csv'
+    filename = inputfilepath + 'predictions_output.csv'
     inputdata = pd.read_csv(str(filename))
 
     #Plug-in your legacy code here or call any functions

@@ -11,9 +11,11 @@ import sys
 
 def legacy_postprocessing(inputdf):
     
-    #Pre-process your data
+    #Post-process your data
     outputdf=inputdf
     return(outputdf)
+
+
 
 #main function to start the execution    
 if __name__ == "__main__":
@@ -32,7 +34,7 @@ if __name__ == "__main__":
         outputfilepath = localpath
     else: 
         #SM processing container's default input/output paths
-        inputfilepath = '/opt/ml/processing/input/'
+        inputfilepath = '/opt/ml/processing/input/data/'
         outputfilepath = '/opt/ml/processing/output/'
     
     #read Input file

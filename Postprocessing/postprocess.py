@@ -11,7 +11,7 @@ import sys
 
 def legacy_postprocessing(inputdf):
     
-    #Pre-process your data
+    #Post-process your data
     outputdf=inputdf
     return(outputdf)
 

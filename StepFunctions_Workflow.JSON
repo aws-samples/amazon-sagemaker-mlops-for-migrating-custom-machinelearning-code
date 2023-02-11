@@ -1,168 +1,172 @@
 {
-  "Comment": "A description of my state machine",
-  "StartAt": "Preprocessing Job",
-  "States": {
-    "Preprocessing Job": {
-      "Type": "Task",
-      "Resource": "arn:aws:states:::sagemaker:createTrainingJob",
-      "Parameters": {
-        "AlgorithmSpecification": {
-          "TrainingImage.$": "$.TrainingImage",
-          "TrainingInputMode": "File",
-          "ContainerEntrypoint": [
-            "python"
-          ],
-          "ContainerArguments": [
-            "/opt/ml/input/data/custom_code/preprocess.py"
-          ]
-        },
-        "RoleArn.$": "$.RoleArn",
-        "OutputDataConfig": {
-          "S3OutputPath.$": "$.S3OutputPath"
-        },
-        "ResourceConfig": {
-          "InstanceCount": 1,
-          "InstanceType.$": "$.InstanceType",
-          "VolumeSizeInGB.$": "$.VolumeSizeInGB"
-        },
-        "TrainingJobName.$": "$.TrainingJobName",
-        "StoppingCondition": {
-          "MaxRuntimeInSeconds.$": "$.MaxRuntimeInSeconds"
-        },
-        "InputDataConfig": [
-          {
-            "ChannelName": "custom_code",
-            "DataSource": {
-              "S3DataSource": {
-                "S3DataType": "S3Prefix",
-                "S3Uri.$": "$.CodeUri.S3Uri",
-                "S3DataDistributionType": "FullyReplicated"
-              }
-            },
-            "CompressionType": "None",
-            "RecordWrapperType": "None"
-          },
-          {
-            "ChannelName": "source",
-            "DataSource": {
-              "S3DataSource": {
-                "S3DataType": "S3Prefix",
-                "S3Uri.$": "$.InputUri.S3Uri",
-                "S3DataDistributionType": "FullyReplicated"
-              }
-            },
-            "CompressionType": "None",
-            "RecordWrapperType": "None"
-          }
-        ]
-      },
-      "Next": "Inference",
-      "ResultPath": null,
-      "InputPath": "$.PreProcessing"
-    },
-    "Inference": {
-      "Type": "Task",
-      "Resource": "arn:aws:states:::sagemaker:createProcessingJob.sync",
-      "Parameters": {
-        "ProcessingInputs": [
-          {
-            "InputName": "input_data",
-            "S3Input": {
-              "S3Uri.$": "$.InputUri.S3Uri",
-              "LocalPath": "/opt/ml/processing/input",
-              "S3DataType": "S3Prefix",
-              "S3InputMode": "File"
-            }
-          }
-        ],
-        "ProcessingOutputConfig": {
-          "Outputs": [
-            {
-              "OutputName": "output_data",
-              "S3Output": {
-                "S3Uri.$": "$.OutputUri.S3Uri",
-                "LocalPath": "/opt/ml/processing/output",
-                "S3UploadMode": "EndOfJob"
-              }
-            }
-          ]
-        },
-        "ProcessingJobName.$": "$.ProcessingJobName",
-        "ProcessingResources": {
-          "ClusterConfig": {
-            "InstanceCount": 1,
-            "InstanceType.$": "$.InstanceType",
-            "VolumeSizeInGB.$": "$.VolumeSizeInGB"
-          }
-        },
-        "StoppingCondition": {
-          "MaxRuntimeInSeconds.$": "$.MaxRuntimeInSeconds"
-        },
-        "AppSpecification": {
-          "ImageUri.$": "$.ImageUri"
-        },
-        "RoleArn.$": "$.RoleArn"
-      },
-      "Next": "Postprocessing Job",
-      "ResultPath": null,
-      "InputPath": "$.Inference"
-    },
-    "Postprocessing Job": {
-      "Type": "Task",
-      "Resource": "arn:aws:states:::sagemaker:createTrainingJob",
-      "Parameters": {
-        "AlgorithmSpecification": {
-          "TrainingImage.$": "$.TrainingImage",
-          "TrainingInputMode": "File",
-          "ContainerEntrypoint": [
-            "python"
-          ],
-          "ContainerArguments": [
-            "/opt/ml/input/data/custom_code/postprocess.py"
-          ]
-        },
-        "RoleArn.$": "$.RoleArn",
-        "OutputDataConfig": {
-          "S3OutputPath.$": "$.S3OutputPath"
-        },
-        "ResourceConfig": {
-          "InstanceCount": 1,
-          "InstanceType.$": "$.InstanceType",
-          "VolumeSizeInGB.$": "$.VolumeSizeInGB"
-        },
-        "TrainingJobName.$": "$.TrainingJobName",
-        "StoppingCondition": {
-          "MaxRuntimeInSeconds.$": "$.MaxRuntimeInSeconds"
-        },
-        "InputDataConfig": [
-          {
-            "ChannelName": "custom_code",
-            "DataSource": {
-              "S3DataSource": {
-                "S3DataType": "S3Prefix",
-                "S3Uri.$": "$.CodeUri.S3Uri",
-                "S3DataDistributionType": "FullyReplicated"
-              }
-            },
-            "CompressionType": "None",
-            "RecordWrapperType": "None"
-          },
-          {
-            "ChannelName": "source",
-            "DataSource": {
-              "S3DataSource": {
-                "S3DataType": "S3Prefix",
-                "S3Uri.$": "$.InputUri.S3Uri",
-                "S3DataDistributionType": "FullyReplicated"
-              }
-            },
-            "CompressionType": "None",
-            "RecordWrapperType": "None"
-          }
-        ]
-      },
-      "End": true,
-      "InputPath": "$.PostProcessing"
-    }
-  }
+ "Comment": "A description of my state machine",
+ "StartAt": "Preprocessing Script Mode",
+ "States": {
+   "Preprocessing Script Mode": {
+     "Type": "Task",
+     "Resource": "arn:aws:states:::sagemaker:createProcessingJob.sync",
+     "Parameters": {
+       "ProcessingInputs": [
+         {
+           "InputName": "input_data",
+           "S3Input": {
+             "S3Uri.$": "$.InputUri.S3Uri",
+             "LocalPath": "/opt/ml/processing/input/data/",
+             "S3DataType": "S3Prefix",
+             "S3InputMode": "File"
+           }
+         },
+         {
+           "InputName": "scripts",
+           "S3Input": {
+             "S3Uri.$": "$.CodeUri.S3Uri",
+             "LocalPath": "/opt/ml/processing/input/scripts/",
+             "S3DataType": "S3Prefix",
+             "S3InputMode": "File"
+           }
+         }
+       ],
+       "ProcessingOutputConfig": {
+         "Outputs": [
+           {
+             "OutputName": "output_data",
+             "S3Output": {
+               "S3Uri.$": "$.OutputUri.S3Uri",
+               "LocalPath": "/opt/ml/processing/output",
+               "S3UploadMode": "EndOfJob"
+             }
+           }
+         ]
+       },
+       "ProcessingJobName.$": "$.ProcessingJobName",
+       "ProcessingResources": {
+         "ClusterConfig": {
+           "InstanceCount": 1,
+           "InstanceType.$": "$.InstanceType",
+           "VolumeSizeInGB.$": "$.VolumeSizeInGB"
+         }
+       },
+       "StoppingCondition": {
+         "MaxRuntimeInSeconds.$": "$.MaxRuntimeInSeconds"
+       },
+       "AppSpecification": {
+         "ImageUri.$": "$.ImageUri",
+         "ContainerEntrypoint": [
+           "python",
+           "/opt/ml/processing/input/scripts/preprocess.py"
+         ]
+       },
+       "RoleArn.$": "$.RoleArn"
+     },
+     "Next": "Inference Custom Container",
+     "InputPath": "$.PreProcessing",
+     "ResultPath": null
+   },
+   "Inference Custom Container": {
+     "Type": "Task",
+     "Resource": "arn:aws:states:::sagemaker:createProcessingJob.sync",
+     "Parameters": {
+       "ProcessingInputs": [
+         {
+           "InputName": "input_data",
+           "S3Input": {
+             "S3Uri.$": "$.InputUri.S3Uri",
+             "LocalPath": "/opt/ml/processing/input",
+             "S3DataType": "S3Prefix",
+             "S3InputMode": "File"
+           }
+         }
+       ],
+       "ProcessingOutputConfig": {
+         "Outputs": [
+           {
+             "OutputName": "output_data",
+             "S3Output": {
+               "S3Uri.$": "$.OutputUri.S3Uri",
+               "LocalPath": "/opt/ml/processing/output",
+               "S3UploadMode": "EndOfJob"
+             }
+           }
+         ]
+       },
+       "ProcessingJobName.$": "$.ProcessingJobName",
+       "ProcessingResources": {
+         "ClusterConfig": {
+           "InstanceCount": 1,
+           "InstanceType.$": "$.InstanceType",
+           "VolumeSizeInGB.$": "$.VolumeSizeInGB"
+         }
+       },
+       "StoppingCondition": {
+         "MaxRuntimeInSeconds.$": "$.MaxRuntimeInSeconds"
+       },
+       "AppSpecification": {
+         "ImageUri.$": "$.ImageUri"
+       },
+       "RoleArn.$": "$.RoleArn"
+     },
+     "ResultPath": null,
+     "InputPath": "$.Inference",
+     "Next": "Postprocessing Script Mode"
+   },
+   "Postprocessing Script Mode": {
+     "Type": "Task",
+     "Resource": "arn:aws:states:::sagemaker:createProcessingJob.sync",
+     "Parameters": {
+       "ProcessingInputs": [
+         {
+           "InputName": "input_data",
+           "S3Input": {
+             "S3Uri.$": "$.InputUri.S3Uri",
+             "LocalPath": "/opt/ml/processing/input/data/",
+             "S3DataType": "S3Prefix",
+             "S3InputMode": "File"
+           }
+         },
+         {
+           "InputName": "scripts",
+           "S3Input": {
+             "S3Uri.$": "$.CodeUri.S3Uri",
+             "LocalPath": "/opt/ml/processing/input/scripts/",
+             "S3DataType": "S3Prefix",
+             "S3InputMode": "File"
+           }
+         }
+       ],
+       "ProcessingOutputConfig": {
+         "Outputs": [
+           {
+             "OutputName": "output_data",
+             "S3Output": {
+               "S3Uri.$": "$.OutputUri.S3Uri",
+               "LocalPath": "/opt/ml/processing/output",
+               "S3UploadMode": "EndOfJob"
+             }
+           }
+         ]
+       },
+       "ProcessingJobName.$": "$.ProcessingJobName",
+       "ProcessingResources": {
+         "ClusterConfig": {
+           "InstanceCount": 1,
+           "InstanceType.$": "$.InstanceType",
+           "VolumeSizeInGB.$": "$.VolumeSizeInGB"
+         }
+       },
+       "StoppingCondition": {
+         "MaxRuntimeInSeconds.$": "$.MaxRuntimeInSeconds"
+       },
+       "AppSpecification": {
+         "ImageUri.$": "$.ImageUri",
+         "ContainerEntrypoint": [
+           "python",
+           "/opt/ml/processing/input/scripts/postprocess.py"
+         ]
+       },
+       "RoleArn.$": "$.RoleArn"
+     },
+     "End": true,
+     "InputPath": "$.PostProcessing"
+   }
+ }
 }

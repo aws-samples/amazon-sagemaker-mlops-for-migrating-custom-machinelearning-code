@@ -32,8 +32,8 @@ if __name__ == "__main__":
         outputfilepath = localpath
     else: 
         #SM processing container's default input/output paths
-        inputfilepath = '/opt/ml/input/data/source/'
-        outputfilepath = '/opt/ml/output/data/'
+        inputfilepath = '/opt/ml/processing/input/data/'
+        outputfilepath = '/opt/ml/processing/output/'
     
     #read Input file
     filename = inputfilepath + 'pre_processing_input.csv'

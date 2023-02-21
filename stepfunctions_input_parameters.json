@@ -1,0 +1,61 @@
+{
+"PreProcessing":
+  {
+    "ProcessingJobName": "sm-inf-job-0211-1156",
+    "InputUri":
+    {
+      "S3Uri": "s3://sagemaker-us-east-1-111111111111/legacycode/data/preproc/input/"
+    },
+    "OutputUri":
+    {
+      "S3Uri": "s3://sagemaker-us-east-1-111111111111/legacycode/data/predict/input/"
+    },
+    "CodeUri":
+    {
+      "S3Uri": "s3://sagemaker-us-east-1-111111111111/legacycode/scripts/"
+    },
+    "InstanceType": "ml.m5.xlarge",
+    "VolumeSizeInGB": 20,
+    "MaxRuntimeInSeconds": 3600,
+    "ImageUri": "683313688378.dkr.ecr.us-east-1.amazonaws.com/sagemaker-scikit-learn:0.23-1-cpu-py3",
+    "RoleArn": "arn:aws:iam::111111111111:role/service-role/AmazonSageMaker-ExecutionRole-20220816T150072"
+  },
+"Inference":
+  {
+    "ProcessingJobName": "sm-inf-job-0211-1157",
+    "InputUri":
+    {
+      "S3Uri": "s3://sagemaker-us-east-1-111111111111/legacycode/data/predict/input/"
+    },
+    "OutputUri":
+    {
+      "S3Uri": "s3://sagemaker-us-east-1-111111111111/legacycode/data/predict/output/"
+    },
+    "InstanceType": "ml.m5.xlarge",
+    "VolumeSizeInGB": 20,
+    "MaxRuntimeInSeconds": 3600,
+    "ImageUri": "111111111111.dkr.ecr.us-east-1.amazonaws.com/legacycode:1.0",
+    "RoleArn": "arn:aws:iam::111111111111:role/service-role/AmazonSageMaker-ExecutionRole-20220816T150072"
+  },
+"PostProcessing":
+  {
+    "ProcessingJobName": "sm-inf-job-0211-1158",
+    "InputUri":
+    {
+      "S3Uri": "s3://sagemaker-us-east-1-111111111111/legacycode/data/predict/output/"
+    },
+    "OutputUri":
+    {
+      "S3Uri": "s3://sagemaker-us-east-1-111111111111/legacycode/data/postproc/output/"
+    },
+    "CodeUri":
+    {
+      "S3Uri": "s3://sagemaker-us-east-1-111111111111/legacycode/scripts/"
+    },
+    "InstanceType": "ml.m5.xlarge",
+    "VolumeSizeInGB": 20,
+    "MaxRuntimeInSeconds": 3600,
+    "ImageUri": "683313688378.dkr.ecr.us-east-1.amazonaws.com/sagemaker-scikit-learn:0.23-1-cpu-py3",
+    "RoleArn": "arn:aws:iam::111111111111:role/service-role/AmazonSageMaker-ExecutionRole-20220816T150072"
+  }
+}

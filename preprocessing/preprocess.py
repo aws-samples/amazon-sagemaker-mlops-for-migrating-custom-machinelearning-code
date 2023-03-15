@@ -18,7 +18,7 @@ def legacy_preprocessing(inputdf):
 #main function to start the execution    
 if __name__ == "__main__":
     
-    print("Started Run")
+    print("Started Preprocessing Script Run")
     #make the script usable for local testing
     if len(sys.argv) > 1:
         inputtype = sys.argv[1]
@@ -46,4 +46,4 @@ if __name__ == "__main__":
     #write Output back 
     outputfilename = outputfilepath+"predictions_input.csv"
     outputdata.to_csv(outputfilename, index=False)
-    print("Completed Run")
+    print("Completed Preprocessing Script Run")

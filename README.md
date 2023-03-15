@@ -2,12 +2,12 @@
 
 In this repository, we present a deployement-ready solution which uses [SageMaker Processing] (https://docs.aws.amazon.com/sagemaker/latest/dg/processing-job.html) for data processing workloads [AWS Step Functions](https://aws.amazon.com/step-functions) to orchestrate workflow on [Amazon SageMaker](https://aws.amazon.com/sagemaker/).
 
-A complete description can be found in the corresponding [blog post]().
+A complete description can be found in the corresponding [blog post](https://aws.amazon.com/blogs/machine-learning/bring-legacy-machine-learning-code-into-amazon-sagemaker-using-aws-step-functions/).
 
 
 ## Outline
 - [Prerequisites](#Prerequisites)
-- [Notebook Walktrough](#walktrough)
+- [Notebook Walktrough](#walkthrough)
 - [Repo structure](#structure)
 - [Input Documentation](#doc)
 
@@ -22,7 +22,7 @@ A complete description can be found in the corresponding [blog post]().
 You can familiarize with the resources using the tutorial `inferencecontainer/build_and_push.ipynb`.
 
 
-# Repository file structure
+# <a name="structure"></a> Repository file structure
 
 The GitHub repo is organized into different folders that correspond to various stages in the machine learning lifecycle, facilitating easy navigation and management. 
 
